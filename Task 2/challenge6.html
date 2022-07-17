@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Challenge - 6</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style> 
+        #wrapper {
+            text-align: center;
+            margin-top: 5%;
+
+        }
+        #loadXmlBtn {
+            margin-top: 10px;
+             background-color: #4CAF50; /* Green */
+             border: none;
+             color: white;
+             padding: 15px 32px;
+             text-align: center;
+             text-decoration: none;
+             display: inline-block;
+             font-size: 16px;
+
+        }
+
+        #output {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+    </style>
+<body>
+    <div id="wrapper">
+        <h2>Click this button to display a count of the number of pets </h2> <br>
+        <input type="button" id="loadXmlBtn" value="Click Me" />
+        <div id="output"></div>
+    </div>
+</body>
+<script>
+    $(function() {
+
+    var loadXmlBtn = $('#loadXmlBtn');
+    var output = $('#output');
+
+    loadXmlBtn.on('click', function() {
+        $.ajax({
+            type: 'GET',
+            url: 'https://petstore.swagger.io/v2/pet/findByStatus?status=available',
+            cache: false,
+            dataType: 'xml',
+            success: function(xml) {
+                var node = 'Pet', 
+                count = $(xml).find(node).length;
+                output.html('<b>' + node + '</b> count is: ' + count);
+            },
+            error: function(r) {
+                console.error(r);
+            }
+        });
+    });
+
+});
+</script>
+</html>
